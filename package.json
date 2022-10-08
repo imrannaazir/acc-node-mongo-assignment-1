@@ -16,7 +16,7 @@
   "version": "1.0.0",
   "main": ".js",
   "engines": {
-    "node": "14.x"
+    "node": "18.7.0"
   },
   "scripts": {
     "start": "node index.js",
