@@ -61,4 +61,41 @@ controller.saveNewUser = (req, res) => {
         })
     }
 }
+
+// function for patch(update) a user
+controller.updateAUser = (req, res) => {
+    const { id, name, gender, address, contact, photoURL } = req.body
+    const existingUsers = getUsers()
+    const targetedUser = existingUsers.find((user) => Number(user.id) === Number(id))
+
+    if (!id) {
+        res.status(404).send({
+            message: `id is missing! Please provide a id.`
+        })
+    }
+    else {
+
+        if (!targetedUser) {
+            res.status(404).send({
+                message: `user does not exist!`
+            })
+        }
+        else {
+            const newUser = {
+                id: id,
+                name: name || targetedUser.name,
+                gender: gender || targetedUser.gender,
+                address: address || targetedUser.address,
+                contact: contact || targetedUser.contact,
+                photoURL: photoURL || targetedUser.photoURL
+            }
+
+            const finalUsers = existingUsers.map(user => Number(user.id) !== Number(id) ? user : newUser)
+            writeUser(finalUsers)
+            res.status(200).send({
+                message: `user data updated successfully!`
+            })
+        }
+    }
+}
 module.exports = controller
