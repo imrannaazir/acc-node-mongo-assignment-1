@@ -98,4 +98,42 @@ controller.updateAUser = (req, res) => {
         }
     }
 }
+
+// function for patch(bulk update) users
+controller.bulkUpdate = (req, res) => {
+    const data = req.body
+    const existingUsers = getUsers()
+    const userId = []
+    const updateUser = []
+    data.forEach(element => {
+        userId.push(element.id)
+        let targetedUser = existingUsers.find(user => Number(user.id) === Number(element.id))
+        if (targetedUser) {
+            targetedUser = {
+                id: element.id,
+                name: element.name || targetedUser.name,
+                gender: element.gender || targetedUser.gender,
+                contact: element.contact || targetedUser.contact,
+                address: element.address || targetedUser.address,
+                photoURL: element.photoURL || targetedUser.photoURL
+            }
+            updateUser.push(targetedUser)
+        }
+        else {
+            res.status(404).send({
+                message: `user for ${element.id} id was not founded!. Please provide valid ids`
+            })
+        }
+    })
+    const filteredUser = existingUsers.filter(user => !userId.find(id => Number(id) === Number(user.id)))
+    const finalUsers = ([...filteredUser, ...updateUser]);
+    writeUser(finalUsers)
+    res.status(200).send({
+        message: `successfully updated!`,
+        result: finalUsers
+    })
+}
+
+// function for delete user 
+
 module.exports = controller
