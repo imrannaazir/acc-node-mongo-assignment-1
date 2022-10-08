@@ -135,5 +135,22 @@ controller.bulkUpdate = (req, res) => {
 }
 
 // function for delete user 
-
+controller.deleteUser = (req, res) => {
+    const existingUsers = getUsers()
+    const id = req.body.id
+    const targetedUser = existingUsers.find(user => Number(user.id) === id)
+    if (targetedUser) {
+        const finalUsers = existingUsers.filter(user => Number(user.id) !== Number(id))
+        writeUser(finalUsers);
+        res.status(200).send({
+            message: `user deleted successfully!`,
+            deletedUser: targetedUser
+        })
+    }
+    else {
+        res.status(404).send({
+            message: `invalid id! Please provide valid id!`
+        })
+    }
+}
 module.exports = controller
