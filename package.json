@@ -14,9 +14,9 @@
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1"
   },
-  "name": "mongo-assignment1",
+  "name": "random-user-api",
   "version": "1.0.0",
-  "main": ".js",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
