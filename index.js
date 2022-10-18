@@ -40,6 +40,7 @@ const allUser = (req, res) => {
 // function for post a  new user
 const saveNewUser = (req, res) => {
     const existingUsers = getUsers()
+    console.log(existingUsers);
     const { id, name, gender, contact, address, photoURL } = req.body
     if (id && name && gender && contact && address && photoURL) {
         const isIdExit = existingUsers.findIndex((user) => Number(user.id) === Number(id))
